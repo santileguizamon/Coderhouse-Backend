@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+
+<body>
+    <h1>Ingrese su producto</h1>
+    <form action="/productos" method="post">
+        <p>
+            <label for="nombre">Nombre: </label>
+            <input type="text" id="Nombre" name="Nombre"><BR>
+            <label for="apellido">Precio: </label>
+            <input type="text" id="Precio" name="Precio"><BR>
+            <label for="email">Foto URL: </label>
+            <input type="text" id="Thumbnail" name="Thumbnail"><BR>   
+            <input type="submit" value="Enviar"> <input>
+        </p>
+    </form>
+    <a href="/productos">Ir a la lista de productos</a>
+</body>
+
+</html>

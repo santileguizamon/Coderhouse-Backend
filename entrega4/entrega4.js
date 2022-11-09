@@ -8,6 +8,9 @@ const conexionServidor = app.listen(PORT,() =>{
     console.log(`Se esta escuchando en el puerto: ${conexionServidor.address().port}`)
 });
 
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
+
 const rutaProds = Router()
 
 

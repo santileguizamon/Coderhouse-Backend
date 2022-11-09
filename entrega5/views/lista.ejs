@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista</title>
+</head>
+<body>
+    <h2>Vista de productos</h2>
+    
+   <% if (productos.length == 0){ &>
+        <h2>No hay productos</h2>
+
+   <% } else { >%
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Foto</th>
+        </tr>
+        <% productos.forEach((producto) => { %>
+        <tr>
+            <td>producto.name</td>
+            <td>producto.price</td>
+            <td> <img src=<%= producto.thumbnail %> alt=""> </td>
+        </tr>
+        <% }); %>
+    </table>
+    <a href="/">Ir a formulario</a>
+</body>
+</html>
