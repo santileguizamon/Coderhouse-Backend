@@ -1,0 +1,25 @@
+[
+    { "id": 1,
+     "timestamp":21323,
+     "productos":[{
+        "nombre": 1,
+        "descripcion": Iphone 14,
+        "timestamp": $1000,
+        "codigo": 123467790,
+        "precio":1213,
+        "stock":10,
+        "foto": ,
+        "id": 1
+       },{
+        "nombre": 1,
+        "descripcion": Iphone 14,
+        "timestamp": $1000,
+        "codigo": 123467790,
+        "precio":1213,
+        "stock":10,
+        "foto": ,
+        "id": 2
+       }
+       ]
+     }   
+]
