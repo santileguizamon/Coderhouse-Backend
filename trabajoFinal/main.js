@@ -15,3 +15,11 @@ import { rutaCarrito } from "./routes/carrito.js";
 
 app.use('/api/productos', rutaProductos);
 app.use('/api/carrito', rutaCarrito);
+
+app.use((peticion,respuesta,next) =>{
+    if(!peticion.route){
+        respuesta.status(401).send({error: -2, descripcion :` ruta ${peticion.url}  no encontrada}`});
+    }else{
+        next();
+    }
+})

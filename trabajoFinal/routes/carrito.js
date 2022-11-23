@@ -5,38 +5,66 @@ const rutaCarrito = express.router();
 const contenedor = require ('../contenedor/contenedor.js'); 
 
 const carritos = new contenedor('../db/carritos.txt')
+const productos = new contenedor('../db/productos.txt')
+
 
 rutaCarrito.get('/',async(peticion,respuesta)=>{
     const listaCarrito = await carritos.getAll()
     respuesta.JSON(listaCarrito)
 });
 
-rutaCarrito.post('/',(peticion,respuesta)=>{
-    const carritoNuevo = new carritos([]); 
-    const suId = carritoNuevo.push.id(id)
+rutaCarrito.post('/',async(peticion,respuesta)=>{
+    const carrito = {
+        timestamp: Date.now(),
+        productos: []
+    }; 
+    const suId = await carritos.save(carrito);
     respuesta.json(suId)
 });
 
-rutaCarrito.delete('/:id',(peticion,respuesta)=>{
-    const carrito = carritos([]);
-    const eliminarCarrito = carritos.splice(carrito);
-    respuesta.JSON(eliminarCarrito)
+rutaCarrito.delete('/:id',async(peticion,respuesta)=>{
+    const idCarrito = parseInt(peticion.params.id);
+    await carritos.deleteById(idCarrito);
+    respuesta.JSON({
+        status: 'ok'
+    })
 });
 
-rutaCarrito.get('/:id/productos',(peticion,respuesta)=>{
-    const conseguirId = productos.getById(id);
-    const sumarPorId = carritos.push(conseguirId)
+rutaCarrito.get('/:id/productos',async(peticion,respuesta)=>{
+    const idCarrito = parseInt(peticion.params.id);
+    const listaProd = await carritos.getById(idCarrito)
+    respuesta.JSON(listaProd.productos)
 });
 
 rutaCarrito.post('/:id/productos',async(peticion,respuesta)=>{
-    const porId = await productos.getById();
-    const sumar = await carritos.push(porId);
-    respuesta.JSON(sumar)
+    const idCarrito = parseInt(peticion.params.id);
+    const idProducto = peticion.body.idProducto;
+    const producto = await productos.getById(idProducto);
+    const carrito = await carritos.getById(idCarrito);
+    carrito.productos.push(producto);
+    await carritos.update(idCarrito,carrito)
+    respuesta.JSON({
+        status: 'ok'
+    })
 });
 
-rutaCarrito.delete('/:id/productos/:id_prod',(peticion,respuesta)=>{
-    const porId = borrar.deleteById(id);
-    respuesta.JSON(porId)
+rutaCarrito.delete('/:id/productos/:id_prod',async(peticion,respuesta)=>{
+    const idCarrito = parseInt(peticion.params.id);
+    const idProducto = peticion.body.id_prod;
+    const carrito = await carritos.getById(idCarrito);
+    let indexDelete = -1;
+    carrito.productos.forEach((producto,index) => {
+        if(producto.id === idProducto){
+            indexDelete = index;
+        };
+        if (indexDelete => 0){
+            carrito.productos.splice(indexDelete,1)
+        }
+    });
+    await carritos.update(idCarrito,carrito)
+    respuesta.JSON({
+        status: 'ok'
+    })
 });
 
 export {rutaCarrito};

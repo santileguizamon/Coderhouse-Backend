@@ -7,13 +7,13 @@ export class Contenedor {
        const archivo= await fs.promises.readFile(this.productos,'utf8');
        const archivoParseado= JSON.stringify(archivo);
         let id = 1;
-        this.productos.array.forEach((element, index) => {
-            if (element.id >= id) {
-                id = element.id + 1;
+        archivoParseado.forEach((element,index) =>{
+            if(element.id >= id){
+                id=element.id +1
             }
         })
         objeto.id = id;
-        this.productos.push(objeto);
+        archivoParseado.push(objeto);
         await fs.promises.writeFile(this.productos, JSON.stringify(archivoParseado,null,2))
         return id
     };
@@ -28,6 +28,7 @@ export class Contenedor {
         })
         return objetoSelect
     };
+    
     async getAll() {
         const archivo= await fs.promises.readFile(this.productos,'utf8');
         const archivoParseado= JSON.stringify(archivo);
@@ -51,5 +52,22 @@ export class Contenedor {
         const arregloVacio = [];
         await fs.promises.writeFile(this.nombre, JSON.stringify(arregloVacio, null, 2));
     }
+    async update(id,objeto) {
+        const archivo= await fs.promises.readFile(this.productos,'utf8');
+        const archivoParseado= JSON.stringify(archivo);
+         let id = -1;
+         archivoParseado.forEach((element,index) =>{
+             if(producto.id == id){
+                 pocision=indice
+             }
+         })
+         objeto.id = id;
+         if(posicion => 0){
+             archivoParseado.push(objeto);
+         await fs.promises.writeFile(this.productos, JSON.stringify(archivoParseado,null,2))
+         return id
+         }
+        
+     };
 }
 
