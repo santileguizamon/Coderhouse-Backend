@@ -1,30 +1,43 @@
-import options from "./options";
-import knex from "knex";
-
-const connectionMySql = knex(options.mysql);
-const connectionSqlite3 = knex(options.sqlite3);
+import knex from 'knex'
+import config from '../src/config.js'
 
 
-const exist = connectionMySql.schema.hasTable('productos').then((exist)=>{
-        if(!exist){
-        connection.schema.createTable('productos',(table)=>{
-        table.increments('id').primary;
-        table.string('nombre').notNullable();
-        table.float('precio');
-        table.integer('stock');
-       }) .then(()=>console.log('tabla creada con exito'));
-    }
-});
+try {
+    const mariaDbClient = knex(config.mariaDb)
 
-const existMsg = connectionSqlite3.schema.hasTable('mensajes').then((existMsg)=>{
-    if(!exist){
-        connection.schema.createTable('mensajes',(table)=>{
-        table.increments('id').primary;
-        table.string('email',40).notNullable();
-        table.string('mensaje',100).notNullable();
-        table.string('date',100).notNullable();
-       }).then(()=>console.log('tabla creada con exito'))
-    }
-})
+    await mariaDbClient.schema.dropTableIfExists('productos')
 
- export default {exist,existMsg}
+    await mariaDbClient.schema.createTable('productos', table => {
+        table.increments('id').primary()
+        table.string('title', 30).notNullable()
+        table.float('price').notNullable()
+        table.string('thumbnail', 1024)
+    })
+
+    await mariaDbClient.destroy()
+
+    console.log('tabla productos en mariaDb creada con éxito')
+} catch (error) {
+    console.log('error al crear tabla productos en mariaDb')
+    console.log(error)
+}
+
+
+try {
+    const sqliteClient = knex(config.sqlite3)
+
+    await sqliteClient.schema.dropTableIfExists('mensajes')
+
+    await sqliteClient.schema.createTable('mensajes', table => {
+        table.increments('id').primary()
+        table.string('autor', 30)
+        table.string('texto', 128)
+        table.string('fyh', 50)
+    })
+
+    await sqliteClient.destroy()
+
+    console.log('tabla mensajes en sqlite3 creada con éxito')
+} catch (error) {
+    console.log('error al crear tabla mensajes en sqlite3')
+}
